@@ -1,10 +1,12 @@
-import React, { use } from 'react';
-import { Link } from 'react-router';
+import React, { use, useState } from 'react';
+import { Link, useNavigate } from 'react-router';
 import { AuthContext } from '../provider/AuthProvider';
 
 const ResisterPage = () => {
     
-    const { createUser, setUser } = use(AuthContext);
+    const { createUser, setUser, updateUser } = use(AuthContext);
+    const [passError,setPassError] = useState("");
+    const navigate = useNavigate();
 
     const handleResister = (e) => {
         e.preventDefault();
@@ -13,13 +15,28 @@ const ResisterPage = () => {
         const photo = form.photo.value;
         const email = form.email.value;
         const password = form.password.value;
-        console.log({ name, photo, email, password });
+        // console.log({ name, photo, email, password });
+        if(password.length < 6){
+            setPassError("Password should be at least 6 characters.");
+            return;
+        }
 
         createUser(email, password)
             .then((result) => {
                 const user = result.user;
-                console.log(user);
+                // console.log(user);
                 setUser(user);
+                
+                updateUser({displayName: name, photoURL: photo })
+                .then(() => {
+                    setUser({...user,displayName: name,photoURL: photo});
+                    // console.log(user);
+                })
+                .catch((error) => {
+                    setUser(user);
+                    alert(error.message);
+                    console.log(error.message);
+                })
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -27,6 +44,7 @@ const ResisterPage = () => {
                 console.log('Error Message: ', errorMessage, "Error Code: ", errorCode);
                 alert(errorMessage);
             })
+            navigate("/");
     }
     return (
         <div className="flex justify-center items-center min-h-screen">
@@ -74,7 +92,9 @@ const ResisterPage = () => {
                             placeholder="Password"
                             required
                         />
-
+                        {
+                            passError && <p className='text-error text-xs'>{passError}</p>
+                        }
                         {/* terms & conditions */}
                         <div className="flex">
                             <input type="checkbox" name="" id="" />

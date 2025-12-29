@@ -1,5 +1,6 @@
 // NewsCard.jsx
 import { FaRegBookmark, FaShareAlt, FaEye } from "react-icons/fa";
+import { Link } from "react-router";
 
 const formatDate = (iso) => {
   if (!iso) return "";
@@ -33,6 +34,7 @@ const Stars = ({ value = 0 }) => {
 
 const NewsCard = ({ news, onReadMore }) => {
   const {
+    id,
     title,
     rating,
     total_view,
@@ -97,12 +99,12 @@ const NewsCard = ({ news, onReadMore }) => {
         <p className="text-sm text-base-content/80 mt-2">{shortDetails}</p>
 
         <div className="mt-2">
-          <button
+          <Link to={`/news-details/${id}`}
             className="link link-primary font-medium text-orange-500 hover:text-orange-600"
             onClick={() => onReadMore?.(news)}
           >
             Read More
-          </button>
+          </Link>
         </div>
 
         {/* Footer */}

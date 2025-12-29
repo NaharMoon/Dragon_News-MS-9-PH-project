@@ -9,7 +9,7 @@ const Header = () => {
             {/* <p className='text-accent'>Sunday, November 27, 2025</p> */}
             <p className='text-accent font-semibold'>
                 {
-                    format(new Date(),"EEEE, MMMM MM, yyyy")
+                    format(new Date(),"EEEE, MMMM dd, yyyy")
                 }
             </p>
 

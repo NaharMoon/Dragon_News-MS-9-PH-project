@@ -9,7 +9,7 @@ const NavBar = () => {
     const handleLogOut = () => {
         signOut(auth)
         .then(() => {
-            alert('Sign out successfull')
+            alert('You have Logged out!')
         })
         .catch((error)=>{
             alert(error.message)
@@ -17,7 +17,7 @@ const NavBar = () => {
     }
     return (
         <div className='flex justify-between items-center'>
-            <div className=''>
+            <div className='text-accent text-xs'>
                 {user && user.email}
             </div>
             <div className="nav flex gap-5 text-accent">
@@ -26,10 +26,14 @@ const NavBar = () => {
                 <NavLink to={'/career'}>Career</NavLink>
             </div>
             <div className="login-btn flex gap-5">
-                <img src={userIcon} alt="" />
+                <img 
+                className='w-12 rounded-full border-2 border-accent bg-base-200 p-0.5' 
+                src={user?.photoURL? user.photoURL : userIcon} 
+                alt="" 
+                />
                 {
                     user? 
-                    <button onClick={handleLogOut} className='btn btn-primary px-10'>Log Out</button>
+                    <button onClick={handleLogOut} className='btn btn-primary px-10'>LogOut</button>
                     : 
                     <Link to={"/auth/login"} className='btn btn-primary px-10'>Login</Link>
                 }
